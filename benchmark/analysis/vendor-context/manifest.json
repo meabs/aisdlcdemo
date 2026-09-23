@@ -12,6 +12,8 @@
     {"path":".github/copilot-instructions.md","vendor":"github-copilot","approx_bytes":352,"approx_tokens":88,"activation":"repository instruction","documented_auto_load":{"cursor":"no","claude_code":"no","codex":"no","gemini_cli":"no","copilot":"yes"}}
   ],
   "always_on_budget_bytes": {
+    "unoptimised": 0,
+    "optimised_repo_contract": 1116,
     "cursor": 1457,
     "cursor_with_typescript_glob_rule": 1922,
     "claude_code": 861,
