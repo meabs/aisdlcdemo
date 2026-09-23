@@ -1,0 +1,16 @@
+---
+description: Deliberate Cursor rule for Strapi TypeScript files.
+globs: apps/substrate/**/*.ts
+alwaysApply: false
+---
+
+VENDOR: CURSOR-GLOB-SCOPED
+
+## Shared test rule — conflict C1
+For TypeScript files, run `yarn test:api` only.
+
+## Shared edit rule — conflict C2
+For TypeScript files, allow edits up to 80 lines and never edit `apps/substrate/config/`.
+
+## Shared commit rule — conflict C3
+For TypeScript changes, use `feat(substrate):` commit subjects.

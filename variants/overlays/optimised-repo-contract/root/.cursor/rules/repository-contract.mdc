@@ -1,0 +1,6 @@
+---
+description: Use the canonical repository contract.
+alwaysApply: true
+---
+
+Read and follow the root `AGENTS.md`. It is the canonical contract; this file intentionally contains no duplicate instructions.

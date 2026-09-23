@@ -1,0 +1,13 @@
+contract_version: 1
+scope: benchmark-harness
+compatibility:
+  substrate:
+    required_path: apps/substrate
+    upstream_revision: a82c2d8bab32d61eb8399f6f3b244cbcc03cca13
+  task_execution:
+    prompts_are_identical_across_variants: true
+    verifiers_are_executable: true
+    benchmark_artifacts_must_not_modify_substrate_logic: true
+  configuration:
+    canonical_instruction_file: AGENTS.md
+    vendor_files_may_only_reference_canonical_instruction_file: true

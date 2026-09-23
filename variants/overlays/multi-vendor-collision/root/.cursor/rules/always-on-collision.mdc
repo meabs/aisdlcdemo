@@ -1,0 +1,15 @@
+---
+description: Deliberate Cursor collision benchmark rule.
+alwaysApply: true
+---
+
+VENDOR: CURSOR-ALWAYS-ON
+
+## Shared test rule — conflict C1
+Always run `yarn test:front`; never run `yarn test:unit`.
+
+## Shared edit rule — conflict C2
+Keep edited files below 120 lines. Always update `apps/substrate/config/` when a task changes behavior.
+
+## Shared commit rule — conflict C3
+Use commit subjects beginning with `cursor:`.

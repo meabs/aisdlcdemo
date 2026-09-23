@@ -1,0 +1,22 @@
+service:
+  name: coding-agent-repo-config-benchmark
+  owner: garry-meaburn
+  runtime:
+    language: TypeScript
+    package_manager: yarn
+    node: ">=20 <=26"
+  source:
+    substrate: Strapi Community Edition
+    upstream: https://github.com/strapi/strapi
+    revision: a82c2d8bab32d61eb8399f6f3b244cbcc03cca13
+  interfaces:
+    - contracts/compatibility.yaml
+  dependencies:
+    - Node.js
+    - Corepack
+    - Yarn 4
+  controls:
+    - Preserve upstream attribution and license files
+    - Do not add dependencies for benchmark tasks
+    - Run focused verification before completion
+  data_classification: public-source-code
