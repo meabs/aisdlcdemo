@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-vendor agent context collision analysis</title>
+  <style>
+    :root { --ink:#172033; --muted:#586174; --paper:#f7f8fb; --card:#fff; --line:#dbe0ea; --accent:#6d28d9; --warn:#b45309; --bad:#b91c1c; --good:#047857; }
+    * { box-sizing:border-box } body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif }
+    main { max-width:1180px; margin:auto; padding:48px 24px 72px } h1 { font-size:clamp(2rem,5vw,3.6rem); line-height:1.05; max-width:900px; margin:0 0 12px }
+    h2 { margin-top:42px; font-size:1.45rem } h3 { margin-bottom:6px } .eyebrow { color:var(--accent); font-weight:800; letter-spacing:.09em; text-transform:uppercase; font-size:.75rem }
+    .lede { color:var(--muted); font-size:1.15rem; max-width:850px } .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)) }
+    .card, .callout { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px } .card strong { display:block; font-size:1.8rem; color:var(--accent) }
+    .callout { border-left:5px solid var(--warn) } .callout b { color:var(--warn) } table { border-collapse:collapse; width:100%; background:var(--card); font-size:.9rem }
+    th,td { padding:11px; border:1px solid var(--line); vertical-align:top; text-align:left } th { background:#f0edff } code { background:#eceaf4; padding:2px 5px; border-radius:4px }
+    .yes { color:var(--good); font-weight:700 } .no { color:var(--muted) } .optional { color:var(--warn); font-weight:700 } .via { color:var(--accent); font-weight:700 }
+    .confidence { display:inline-block; border-radius:999px; padding:2px 8px; font-size:.75rem; font-weight:700 } .documented { background:#d1fae5;color:#065f46 }.inferred{background:#fef3c7;color:#92400e}.unknown{background:#fee2e2;color:#991b1b}
+    .source { font-size:.9rem; color:var(--muted) } a { color:#5b21b6 } .scroll { overflow-x:auto } footer { margin-top:48px; color:var(--muted); font-size:.85rem }
+  </style>
+</head>
+<body><main>
+  <p class="eyebrow">The Frugal AI Architect · benchmark companion</p>
+  <h1>When every coding agent reads a different rulebook</h1>
+  <p class="lede">The <code>multi-vendor-collision</code> overlay places real vendor file layouts in one tree and makes them disagree on purpose. It measures context tax and exposes where documented precedence ends and guesswork begins.</p>
+  <div class="callout"><b>Do not use this layout in production.</b> The contradictions are benchmark fixtures. A healthy multi-agent repository has one canonical contract and thin vendor references.</div>
+
+  <h2>Executive summary</h2>
+  <div class="grid">
+    <div class="card"><strong>1,457 B / ~365 tokens</strong>Cursor’s always-on collision set: root <code>AGENTS.md</code>, <code>CLAUDE.md</code>, and the always-apply MDC rule. A TypeScript-focused rule adds 465 B / ~116 tokens when applicable.</div>
+    <div class="card"><strong>861 B / ~215 tokens</strong>Claude Code’s root and project-memory collision files, excluding an optional personal local file.</div>
+    <div class="card"><strong>486 B / ~122 tokens</strong>Codex’s override file alone, because <code>AGENTS.override.md</code> supersedes the ordinary project instruction at that level.</div>
+    <div class="card"><strong>376 B / ~94 tokens</strong>Gemini CLI’s default <code>GEMINI.md</code> memory. Copilot’s repository instruction adds 352 B / ~88 tokens for Copilot.</div>
+  </div>
+  <p>These are byte/4 estimates from <a href="manifest.json">manifest.json</a>, not tokenizer measurements. Real token counts vary by model and the client may truncate, select, or summarize context.</p>
+
+  <h2>Who reads whose files?</h2>
+  <div class="scroll"><table>
+    <thead><tr><th>File</th><th>Cursor</th><th>Claude Code</th><th>Codex</th><th>Gemini CLI</th><th>Copilot</th></tr></thead>
+    <tbody>
+      <tr><td><code>AGENTS.md</code></td><td class="yes">Yes — root/nested</td><td class="optional">Version-sensitive / import</td><td class="yes">Yes</td><td class="optional">Optional config</td><td class="no">No</td></tr>
+      <tr><td><code>AGENTS.override.md</code></td><td class="no">No</td><td class="no">No</td><td class="yes">Yes — override</td><td class="no">No</td><td class="no">No</td></tr>
+      <tr><td><code>.cursor/rules/*.mdc</code></td><td class="yes">Yes — activation per frontmatter</td><td class="no">No at session start</td><td class="no">No by default</td><td class="no">No by default</td><td class="no">No</td></tr>
+      <tr><td><code>CLAUDE.md</code></td><td class="yes">Yes</td><td class="yes">Yes — hierarchical</td><td class="no">No by default</td><td class="no">No</td><td class="no">No</td></tr>
+      <tr><td><code>.claude/CLAUDE.md</code></td><td class="no">No</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+      <tr><td><code>GEMINI.md</code></td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes — default memory</td><td class="no">No</td></tr>
+      <tr><td><code>.github/copilot-instructions.md</code></td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="yes">Yes</td></tr>
+    </tbody>
+  </table></div>
+  <p class="source">Cursor requires the <code>.mdc</code> extension for project rules; plain <code>.md</code> in that folder is ignored. Its project rules can be always-on or glob-scoped. Cursor documents root and nested <code>AGENTS.md</code>, with nearer nested instructions taking precedence; its documentation also states it reads <code>CLAUDE.md</code> like <code>AGENTS.md</code>. The exact precedence between those markdown files and applicable MDC files is not fully documented.</p>
+
+  <h2>Context budget and loading caveats</h2>
+  <div class="scroll"><table><thead><tr><th>Agent</th><th>Always-on fixture bytes / estimate</th><th>What was counted</th><th>Important caveat</th></tr></thead><tbody>
+    <tr><td>Cursor</td><td>1,457 / ~365</td><td><code>AGENTS.md</code> + <code>CLAUDE.md</code> + always-on MDC</td><td>Matching TypeScript context can attach the 465 B glob rule. Cross-format conflict order is unknown.</td></tr>
+    <tr><td>Claude Code</td><td>861 / ~215</td><td><code>CLAUDE.md</code> + <code>.claude/CLAUDE.md</code></td><td><code>CLAUDE.local.md</code> is local/optional. AGENTS behavior has changed across Claude Code versions; do not assume it loads unless documented for the installed release or explicitly imported.</td></tr>
+    <tr><td>Codex</td><td>486 / ~122</td><td><code>AGENTS.override.md</code></td><td>Codex walks root→cwd and nearer/later instructions win. Default project-doc budget is about 32 KiB (<code>project_doc_max_bytes</code>), so this small fixture fits but real stacks can crowd out useful context.</td></tr>
+    <tr><td>Gemini CLI</td><td>376 / ~94</td><td><code>GEMINI.md</code></td><td>Its configurable <code>context.fileName</code> can include <code>AGENTS.md</code>; that is not default behavior.</td></tr>
+    <tr><td>Copilot</td><td>352 / ~88</td><td><code>.github/copilot-instructions.md</code></td><td>Repository instruction discovery is separate from the other vendors’ formats.</td></tr>
+  </tbody></table></div>
+
+  <h2>Conflict scenarios: who wins?</h2>
+  <p>All files disagree on C1 (test runner), C2 (file/config boundary), and C3 (commit style). The same resolution applies to each scenario below because they use the same fixture sources.</p>
+  <div class="scroll"><table><thead><tr><th>Agent</th><th>Likely active instruction(s)</th><th>Winner assessment</th><th>Confidence</th></tr></thead><tbody>
+    <tr><td>Cursor</td><td>Root <code>AGENTS.md</code>, <code>CLAUDE.md</code>, always-on MDC; glob MDC for TypeScript</td><td>No documented winner among these formats. Cursor documents Team → Project → User ordering and nested AGENTS specificity, but not a full order for AGENTS vs CLAUDE vs MDC.</td><td><span class="confidence unknown">Unknown</span></td></tr>
+    <tr><td>Claude Code</td><td><code>CLAUDE.md</code> and project/nested Claude memory; optional local file</td><td>Claude’s own memory hierarchy applies; this report does not claim a resolver for root versus project-memory collisions. Cursor MDC is not natively live-loaded. AGENTS requires explicit import in established setups; newer modes are version-sensitive.</td><td><span class="confidence inferred">Inferred</span></td></tr>
+    <tr><td>Codex</td><td><code>AGENTS.override.md</code></td><td>The override is the intended winner over ordinary AGENTS at the same level; nearer instructions win along the directory walk. CLAUDE and Cursor files are not defaults.</td><td><span class="confidence documented">Documented</span></td></tr>
+    <tr><td>Gemini CLI</td><td><code>GEMINI.md</code></td><td>Gemini’s own instruction wins because other formats are not default memory. If <code>context.fileName</code> is configured to include AGENTS, this becomes a configuration-dependent collision.</td><td><span class="confidence documented">Documented</span></td></tr>
+    <tr><td>Copilot</td><td><code>.github/copilot-instructions.md</code></td><td>Copilot’s repository instruction is the active fixture. Other vendor files do not define Copilot precedence here.</td><td><span class="confidence documented">Documented</span></td></tr>
+  </tbody></table></div>
+
+  <h2>Contract recommendation</h2>
+  <div class="callout"><b>One source, many pointers.</b> Keep the Agent-Ready Repository Contract in one canonical <code>AGENTS.md</code> and durable docs/contracts. Vendor files should import, <code>@</code>-reference, or plainly point to it rather than restating policy. Keep vendor-only mechanics short and scoped. Never put secrets in local overrides. Avoid competing always-on instructions: every duplicated rule consumes context and creates an undocumented tie-break.</div>
+
+  <h2>Benchmark connection</h2>
+  <p>The ordinary variants isolate the value of a focused <code>AGENTS.md</code>, OKF knowledge, and the repository contract. The new <code>multi-vendor-collision</code> overlay is intentionally a stress case: it reveals the cost and behavior risk of stacking vendor-specific context. It should be measured separately, never treated as the “fully tuned” optimum.</p>
+
+  <h2>Sources and uncertainty</h2>
+  <ul>
+    <li><a href="https://cursor.com/docs/rules">Cursor Rules documentation</a> — MDC extension, activation modes, nested AGENTS, and team/project/user ordering.</li>
+    <li><a href="https://docs.anthropic.com/en/docs/claude-code/memory">Claude Code memory documentation</a> — CLAUDE memory locations/import behavior. AGENTS support is explicitly marked version-sensitive here because behavior and documentation have evolved.</li>
+    <li><a href="https://developers.openai.com/codex/guides/agents-md/">Codex AGENTS.md guide</a> — AGENTS override/discovery and project-document budget.</li>
+    <li><a href="https://geminicli.com/docs/cli/gemini-md/">Gemini CLI GEMINI.md documentation</a> — hierarchical memory and configurable filename.</li>
+    <li><a href="https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot">GitHub Copilot repository custom instructions</a>.</li>
+  </ul>
+  <footer>Prepared as a static, self-contained browser report. No network requests, build step, or telemetry are required to open it.</footer>
+</main></body></html>

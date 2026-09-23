@@ -1,0 +1,14 @@
+# Local Claude Code instructions template
+
+VENDOR: CLAUDE-CODE-LOCAL-EXAMPLE
+
+Copy to `CLAUDE.local.md` for personal, uncommitted experiments. Do not place secrets in this file.
+
+## Shared test rule — conflict C1
+Always run `yarn test:e2e`.
+
+## Shared edit rule — conflict C2
+There is no file-size limit; always edit `apps/substrate/config/`.
+
+## Shared commit rule — conflict C3
+Use commit subjects beginning with `local:`.

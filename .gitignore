@@ -2,8 +2,12 @@
 .benchmark-variant
 benchmark/submissions/
 AGENTS.md
+AGENTS.override.md
+CLAUDE.md
+GEMINI.md
 .cursor/
 .codex/
+.claude/
 okf/
 contracts/
 dev/
@@ -11,3 +15,5 @@ Validation/
 service.yaml
 docs/architecture.md
 docs/domain.md
+CLAUDE.local.md
+.github/copilot-instructions.md

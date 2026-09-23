@@ -15,6 +15,7 @@ All variants use the identical substrate and task prompts. They differ only in f
 | `optimised-okf` | An Open Knowledge Format-style progressive-disclosure bundle. |
 | `optimised-repo-contract` | The Agent-Ready Repository Contract: canonical instructions, architecture/domain docs, API contract, service manifest, executable interface, validation, and thin vendor references. |
 | `optimised-combined` | Both the repository contract and the OKF bundle. |
+| `multi-vendor-collision` | A deliberately contradictory multi-vendor instruction layout for context and precedence experiments; not a production configuration. |
 
 The configurations are overlays rather than Git branches. This keeps one checked-out substrate and makes it harder to accidentally benchmark different application commits. `./variants/apply.sh <name>` is the one-command switcher.
 
@@ -35,6 +36,10 @@ benchmark/tasks/02-bugfix/verify.sh
 ```
 
 See [benchmark/runbook.md](benchmark/runbook.md) for the complete Cursor/Codex comparison protocol and [benchmark/metrics.md](benchmark/metrics.md) for the measurement schema.
+
+## Multi-vendor context experiment
+
+`./variants/apply.sh multi-vendor-collision` lays out canonical, Cursor, Claude Code, Codex, Gemini CLI, and GitHub Copilot instruction files side-by-side. Every file contains marked contradictions so different loading and precedence behavior is observable. Open the standalone [vendor-context report](benchmark/analysis/vendor-context/report.html) in a browser for the loading matrix, context tax, conflict analysis, sources, and contract recommendation.
 
 ## Substrate attribution
 

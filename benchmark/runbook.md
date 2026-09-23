@@ -4,6 +4,8 @@
 
 Use the same agent model/version, task prompt text, substrate commit, machine class, time limit, and clean starting worktree for every comparison. Change only the configuration variant.
 
+The `multi-vendor-collision` variant is a separate stress experiment, not a normal optimised variant. Review [the standalone context report](analysis/vendor-context/report.html) before using it. Record the exact client version and any non-default instruction-discovery settings, because precedence behavior differs by vendor and release.
+
 The vendored Strapi snapshot is large. Install dependencies once per worktree only if the task requires executable upstream tests:
 
 ```bash

@@ -7,7 +7,7 @@ source_dir="$root/variants/overlays/$variant"
 state_dir="$root/.agent-config"
 
 if [[ ! -d "$source_dir" ]]; then
-  echo "Usage: $0 {unoptimised|optimised-agents-md|optimised-okf|optimised-repo-contract|optimised-combined}" >&2
+  echo "Usage: $0 {unoptimised|optimised-agents-md|optimised-okf|optimised-repo-contract|optimised-combined|multi-vendor-collision}" >&2
   exit 64
 fi
 
@@ -16,8 +16,11 @@ mkdir -p "$state_dir"
 cp -a "$source_dir/." "$state_dir/"
 
 # Canonical, generated entry points are deliberately limited to agent material.
-rm -f "$root/AGENTS.md"
-rm -rf "$root/.cursor" "$root/.codex" "$root/okf" "$root/contracts" "$root/dev" "$root/Validation"
+rm -f "$root/AGENTS.md" "$root/AGENTS.override.md" "$root/CLAUDE.md" "$root/CLAUDE.local.md" "$root/CLAUDE.local.md.example" \
+  "$root/GEMINI.md" "$root/.cursorrules" "$root/.windsurfrules" "$root/.clinerules"
+rm -rf "$root/.cursor" "$root/.codex" "$root/.claude" "$root/okf" "$root/contracts" "$root/dev" "$root/Validation"
+rm -f "$root/.github/copilot-instructions.md"
+rmdir "$root/.github" 2>/dev/null || true
 rm -f "$root/service.yaml" "$root/docs/architecture.md" "$root/docs/domain.md"
 
 if [[ "$variant" == "optimised-combined" ]]; then

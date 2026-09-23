@@ -1,0 +1,22 @@
+{
+  "purpose": "Measured instruction files in the multi-vendor-collision overlay. Token estimates use bytes / 4 and are intentionally approximate.",
+  "files": [
+    {"path":"AGENTS.md","vendor":"shared/codex","approx_bytes":506,"approx_tokens":127,"activation":"always-on or hierarchical","documented_auto_load":{"cursor":"yes","claude_code":"version-sensitive","codex":"yes","gemini_cli":"optional","copilot":"no"}},
+    {"path":"AGENTS.override.md","vendor":"codex","approx_bytes":486,"approx_tokens":122,"activation":"Codex override","documented_auto_load":{"cursor":"no","claude_code":"no","codex":"yes","gemini_cli":"no","copilot":"no"}},
+    {"path":".cursor/rules/always-on-collision.mdc","vendor":"cursor","approx_bytes":430,"approx_tokens":108,"activation":"always-on","documented_auto_load":{"cursor":"yes","claude_code":"no","codex":"no","gemini_cli":"no","copilot":"no"}},
+    {"path":".cursor/rules/substrate-collision.mdc","vendor":"cursor","approx_bytes":465,"approx_tokens":116,"activation":"glob-scoped","documented_auto_load":{"cursor":"yes, when matching context","claude_code":"no","codex":"no","gemini_cli":"no","copilot":"no"}},
+    {"path":"CLAUDE.md","vendor":"claude-code","approx_bytes":521,"approx_tokens":130,"activation":"hierarchical memory","documented_auto_load":{"cursor":"yes","claude_code":"yes","codex":"no by default","gemini_cli":"no","copilot":"no"}},
+    {"path":".claude/CLAUDE.md","vendor":"claude-code","approx_bytes":340,"approx_tokens":85,"activation":"Claude Code project memory","documented_auto_load":{"cursor":"no","claude_code":"yes","codex":"no","gemini_cli":"no","copilot":"no"}},
+    {"path":"CLAUDE.local.md.example","vendor":"claude-code","approx_bytes":431,"approx_tokens":108,"activation":"example only; copy to ignored local file","documented_auto_load":{"cursor":"no","claude_code":"optional after copy","codex":"no","gemini_cli":"no","copilot":"no"}},
+    {"path":"GEMINI.md","vendor":"gemini-cli","approx_bytes":376,"approx_tokens":94,"activation":"hierarchical memory","documented_auto_load":{"cursor":"no","claude_code":"no","codex":"no","gemini_cli":"yes","copilot":"no"}},
+    {"path":".github/copilot-instructions.md","vendor":"github-copilot","approx_bytes":352,"approx_tokens":88,"activation":"repository instruction","documented_auto_load":{"cursor":"no","claude_code":"no","codex":"no","gemini_cli":"no","copilot":"yes"}}
+  ],
+  "always_on_budget_bytes": {
+    "cursor": 1457,
+    "cursor_with_typescript_glob_rule": 1922,
+    "claude_code": 861,
+    "codex": 486,
+    "gemini_cli": 376,
+    "github_copilot": 352
+  }
+}
