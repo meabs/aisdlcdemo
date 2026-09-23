@@ -1,0 +1,13 @@
+.agent-config/
+.benchmark-variant
+benchmark/submissions/
+AGENTS.md
+.cursor/
+.codex/
+okf/
+contracts/
+dev/
+Validation/
+service.yaml
+docs/architecture.md
+docs/domain.md
