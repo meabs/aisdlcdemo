@@ -13,7 +13,7 @@
   ],
   "always_on_budget_bytes": {
     "unoptimised": 0,
-    "optimised_repo_contract": 1116,
+    "optimised_repo_contract": 1314,
     "cursor": 1457,
     "cursor_with_typescript_glob_rule": 1922,
     "claude_code": 861,
