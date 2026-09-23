@@ -20,5 +20,12 @@
     "codex": 486,
     "gemini_cli": 376,
     "github_copilot": 352
-  }
+  },
+  "overlay_tax_bytes": {
+    "unoptimised": 0,
+    "optimised_repo_contract": 5361,
+    "optimised_combined": 7252,
+    "multi_vendor_collision": 3907
+  },
+  "methodology": "always_on_budget_bytes is stub/auto-load tax only. overlay_tax_bytes counts every effective agent-oriented overlay file; see benchmark/results/context-tax.md for the auditable file inventory and observed-run reconstruction."
 }

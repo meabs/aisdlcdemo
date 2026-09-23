@@ -21,15 +21,16 @@
 <body><main>
   <p class="eyebrow">The Frugal AI Architect · benchmark companion</p>
   <h1>When every coding agent reads a different rulebook</h1>
-  <p class="lede">The <code>multi-vendor-collision</code> overlay places real vendor file layouts in one tree and makes them disagree on purpose. It measures context tax and exposes where documented precedence ends and guesswork begins.</p>
+  <p class="lede">The <code>multi-vendor-collision</code> overlay places real vendor file layouts in one tree and makes them disagree on purpose. The headline tax is the complete overlay, not merely the tiny set of auto-loaded stubs.</p>
   <div class="callout"><b>Do not use this layout in production.</b> The contradictions are benchmark fixtures. A healthy multi-agent repository has one canonical contract and thin vendor references.</div>
 
   <h2>Executive summary</h2>
+  <div class="callout"><b>Three measurements, not one.</b> Stub / auto-load tax counts only documented automatically attached files. Overlay / contract tax counts every agent-oriented file the overlay supplies. Observed-run tax is a reconstructed lower bound from overlay material plus task files known to have been read or executed. Provider token telemetry was unavailable.</div>
   <div class="grid">
-    <div class="card"><strong>1,457 B / ~365 tokens</strong>Cursor’s always-on collision set: root <code>AGENTS.md</code>, <code>CLAUDE.md</code>, and the always-apply MDC rule. A TypeScript-focused rule adds 465 B / ~116 tokens when applicable.</div>
-    <div class="card"><strong>861 B / ~215 tokens</strong>Claude Code’s root and project-memory collision files, excluding an optional personal local file.</div>
-    <div class="card"><strong>486 B / ~122 tokens</strong>Codex’s override file alone, because <code>AGENTS.override.md</code> supersedes the ordinary project instruction at that level.</div>
-    <div class="card"><strong>376 B / ~94 tokens</strong>Gemini CLI’s default <code>GEMINI.md</code> memory. Copilot’s repository instruction adds 352 B / ~88 tokens for Copilot.</div>
+    <div class="card"><strong>5,361 B / ~1,340 tokens</strong>Complete repo-contract overlay: instructions, architecture/domain docs, service manifest, contracts, validation, executable interface, and vendor stubs.</div>
+    <div class="card"><strong>7,252 B / ~1,813 tokens</strong>Complete combined overlay: repo contract plus the progressive-disclosure OKF knowledge bundle.</div>
+    <div class="card"><strong>3,907 B / ~976 tokens</strong>All planted multi-vendor collision files, including the local-file example (inactive until copied).</div>
+    <div class="card"><strong>1,457 B / ~364 tokens</strong>Collision <em>stub / auto-load</em> tax only: root <code>AGENTS.md</code>, <code>CLAUDE.md</code>, and always-apply MDC.</div>
   </div>
   <p>These are byte/4 estimates from <a href="manifest.json">manifest.json</a>, not tokenizer measurements. Real token counts vary by model and the client may truncate, select, or summarize context.</p>
 
@@ -48,7 +49,7 @@
   </table></div>
   <p class="source">Cursor requires the <code>.mdc</code> extension for project rules; plain <code>.md</code> in that folder is ignored. Its project rules can be always-on or glob-scoped. Cursor documents root and nested <code>AGENTS.md</code>, with nearer nested instructions taking precedence; its documentation also states it reads <code>CLAUDE.md</code> like <code>AGENTS.md</code>. The exact precedence between those markdown files and applicable MDC files is not fully documented.</p>
 
-  <h2>Context budget and loading caveats</h2>
+  <h2>Stub / auto-load budget and loading caveats</h2>
   <div class="scroll"><table><thead><tr><th>Agent</th><th>Always-on fixture bytes / estimate</th><th>What was counted</th><th>Important caveat</th></tr></thead><tbody>
     <tr><td>Cursor</td><td>1,457 / ~365</td><td><code>AGENTS.md</code> + <code>CLAUDE.md</code> + always-on MDC</td><td>Matching TypeScript context can attach the 465 B glob rule. Cross-format conflict order is unknown.</td></tr>
     <tr><td>Claude Code</td><td>861 / ~215</td><td><code>CLAUDE.md</code> + <code>.claude/CLAUDE.md</code></td><td><code>CLAUDE.local.md</code> is local/optional. AGENTS behavior has changed across Claude Code versions; do not assume it loads unless documented for the installed release or explicitly imported.</td></tr>
@@ -73,7 +74,7 @@
   <h2>Benchmark connection</h2>
   <p>The ordinary variants isolate the value of a focused <code>AGENTS.md</code>, OKF knowledge, and the repository contract. The new <code>multi-vendor-collision</code> overlay is intentionally a stress case: it reveals the cost and behavior risk of stacking vendor-specific context. It should be measured separately, never treated as the “fully tuned” optimum.</p>
   <h3>Measured Cursor slice</h3>
-  <p>Task 07 measured 0 B / ~0 tokens for <code>unoptimised</code>, 1,314 B / ~328 tokens for <code>optimised-repo-contract</code>, and 1,457 B / ~364 tokens for the collision overlay’s documented Cursor always-on set. In Task 06, Cursor chose the TypeScript-scoped MDC instruction: <code>yarn test:api</code>, 80-line budget, and no config edit. This is an observed benchmark outcome, not evidence of a documented cross-format precedence rule. See <code>benchmark/results/cursor-runs-v2.jsonl</code>.</p>
+  <p>Task 07 measured <em>stub / auto-load</em> tax of 0 B / ~0 tokens for <code>unoptimised</code>, 1,314 B / ~328 tokens for <code>optimised-repo-contract</code>, and 1,457 B / ~364 tokens for the collision overlay. Complete overlay tax is respectively 0 B, 5,361 B / ~1,340 tokens, and 3,907 B / ~976 tokens. In Task 06, Cursor chose the TypeScript-scoped MDC instruction: <code>yarn test:api</code>, 80-line budget, and no config edit. This is an observed benchmark outcome, not evidence of a documented cross-format precedence rule. See <code>benchmark/results/context-tax.md</code>.</p>
 
   <h2>Sources and uncertainty</h2>
   <ul>

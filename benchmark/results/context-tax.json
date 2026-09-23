@@ -1,0 +1,16 @@
+{
+  "method": "bytes / 4 estimates tokens. Overlay tax counts all agent-oriented overlay files. Observed-run tax is a reconstructed lower-bound proxy: overlay tax plus task material known to be read/executed; complete per-run provider/file-read telemetry is unavailable.",
+  "variants": {
+    "unoptimised": {"stub_bytes": 0, "overlay_bytes": 0},
+    "optimised-repo-contract": {"stub_bytes": 1314, "overlay_bytes": 5361},
+    "optimised-combined": {"stub_bytes": 1314, "overlay_bytes": 7252},
+    "multi-vendor-collision": {"stub_bytes": 1457, "overlay_bytes": 3907}
+  },
+  "runs": [
+    {"task":"05-api-endpoint","variant":"unoptimised","observed_proxy_bytes":456,"known_task_material_bytes":456},
+    {"task":"05-api-endpoint","variant":"optimised-repo-contract","observed_proxy_bytes":5817,"known_task_material_bytes":456},
+    {"task":"06-vendor-conflict","variant":"multi-vendor-collision","observed_proxy_bytes":4593,"known_task_material_bytes":686},
+    {"task":"07-context-tax","variant":"unoptimised","observed_proxy_bytes":1040,"known_task_material_bytes":1040},
+    {"task":"07-context-tax","variant":"multi-vendor-collision","observed_proxy_bytes":4947,"known_task_material_bytes":1040}
+  ]
+}
